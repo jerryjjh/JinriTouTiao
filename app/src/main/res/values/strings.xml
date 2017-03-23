@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">头条新闻</string>
+    <string name="yejian_yejian">夜间模式</string>
+    <string name="rijian_rijian">日间模式</string>
+</resources>

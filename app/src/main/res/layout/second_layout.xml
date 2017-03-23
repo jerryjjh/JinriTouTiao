@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="?attr/mainBackground"
+>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38sp"
+        android:background="#cc3334"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/zhu_image_benren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="#cc3334"
+            android:src="@mipmap/munion_bottombar_user" />
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="150dp"
+            android:src="@mipmap/detail_loading" />
+
+        <ImageView
+            android:id="@+id/zhu_image_shuaxin"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/defoult" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/zhu_image_serch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/abc_ic_search" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="#cccccc">
+
+        <android.support.design.widget.TabLayout
+
+            android:id="@+id/zhu_tablayout"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent">
+
+        </android.support.design.widget.TabLayout>
+
+        <ImageButton
+            android:id="@+id/zhu_imagebutton_gengduo"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#9fffffff"
+            android:src="@mipmap/addpgc_subscribe" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/zhu_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+</LinearLayout>
