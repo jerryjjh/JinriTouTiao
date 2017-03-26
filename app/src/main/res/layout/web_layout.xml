@@ -1,9 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/webview_linear_ding"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/webview_image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/backto" />
+    </LinearLayout>
+
     <WebView
         android:id="@+id/webview_it"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </WebView>
+
+    <LinearLayout
+        android:id="@+id/webview_linear_dibu"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <EditText
+
+            android:id="@+id/webview_editext_di"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:hint="写评论..." />
+
+        <ImageView
+            android:id="@+id/webView_image_pinglun"
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@mipmap/liuyan" />
+
+        <ImageView
+            android:id="@+id/webview_image_shoucang"
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@mipmap/shoucang" />
+
+        <ImageView
+            android:id="@+id/webview_image_fenxiang"
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@mipmap/fenxiang" />
+    </LinearLayout>
+
 </LinearLayout>

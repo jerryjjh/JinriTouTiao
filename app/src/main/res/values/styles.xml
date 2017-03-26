@@ -19,5 +19,10 @@
 
         <item name="mainBackground">@color/nightColorPrimaryDark</item>
     </style>
+    <style name="tablayoutIcon" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">16sp</item>
+    </style>
 
-</resources>
+
+
+    </resources>

@@ -1,5 +1,7 @@
 package com.bawei.jiajianhai.jinritoutiao.activity;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,7 +26,7 @@ public class GengduoActivity extends FragmentActivity {
     private String[] titles = new String[]{"热点视频", "娱乐视频", "搞笑视频", "精品视频"};
     private String[] names = new String[]{"V9LG4B3A0", "V9LG4CHOR", "V9LG4E6VR", "00850FRB"};
 
-    private String[] urls=new String[]{"http://c.3g.163.com/nc/video/list/V9LG4B3A0/n/10-10.html",
+    private String[] urls = new String[]{"http://c.3g.163.com/nc/video/list/V9LG4B3A0/n/10-10.html",
             "http://c.3g.163.com/nc/video/list/V9LG4CHOR/n/10-10.html",
             "http://c.3g.163.com/nc/video/list/V9LG4E6VR/n/10-10.html",
             "http://c.3g.163.com/nc/video/list/00850FRB/n/10-10.html"};
@@ -32,11 +34,16 @@ public class GengduoActivity extends FragmentActivity {
     private ViewPager vp;
     private ArrayList<Fragment> list_f = new ArrayList<>();
     private Fragmeng_shipin shipin_fragment;
+    private int theme = R.style.AppTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        int theme = intent.getIntExtra("theme", this.theme);
+        setTheme(theme);
         setContentView(R.layout.gengduo_layout);
+
         initview();
         initdata();
     }
@@ -46,7 +53,7 @@ public class GengduoActivity extends FragmentActivity {
         for (int i = 0; i < titles.length; i++) {
             Bundle bundle = new Bundle();
             bundle.putString("key", urls[i]);
-            bundle.putString("name",names[i]);
+            bundle.putString("name", names[i]);
             shipin_fragment = new Fragmeng_shipin();
             tabLayout.addTab(tabLayout.newTab().setText(titles[i]));
             shipin_fragment.setArguments(bundle);
@@ -59,13 +66,13 @@ public class GengduoActivity extends FragmentActivity {
     }
 
     private void initview() {
-        Button xiala = (Button)findViewById(R.id.buttonP);
+      /*  Button xiala = (Button) findViewById(R.id.buttonP);
         xiala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
-        });
+        });*/
         vp = (ViewPager) findViewById(R.id.gengduo_viewpager_vp);
         tabLayout = (TabLayout) findViewById(R.id.gengduo_tab_dinglan);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);

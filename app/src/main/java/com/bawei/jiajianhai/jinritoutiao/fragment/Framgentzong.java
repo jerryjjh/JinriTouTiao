@@ -83,7 +83,7 @@ public class Framgentzong extends Fragment {
                         shipei(datas);
                         springView.onFinishFreshAndLoad();
                     }
-                },1000);
+                },5000);
             }
 
             @Override
@@ -94,7 +94,7 @@ public class Framgentzong extends Fragment {
 
                         springView.onFinishFreshAndLoad();
                     }
-                },1000);
+                },5000);
             }
         });
         return view;

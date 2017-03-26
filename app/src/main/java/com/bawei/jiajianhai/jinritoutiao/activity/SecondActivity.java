@@ -1,6 +1,7 @@
 package com.bawei.jiajianhai.jinritoutiao.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,9 +21,7 @@ import android.widget.Toast;
 
 import com.bawei.jiajianhai.jinritoutiao.R;
 import com.bawei.jiajianhai.jinritoutiao.fragment.Framgentzong;
-import com.bawei.jiajianhai.jinritoutiao.utils.ImageUtils;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -38,6 +37,7 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.gui.RegisterPage;
 
+
 /**
  * @类的用途:
  * @author:jiajianhai
@@ -50,7 +50,7 @@ public class SecondActivity extends FragmentActivity {
     private ImageView shuaxin;
     private TabLayout tablatout;
     private ViewPager viewPager;
-    Boolean flag2=false;
+    Boolean flag2 = false;
     String yejianmoshi = null;
     int yejianImageId = 0;
     private int theme = R.style.AppTheme;
@@ -63,6 +63,10 @@ public class SecondActivity extends FragmentActivity {
     private RelativeLayout relativeLayout;
     private TextView sli_text_myQQName;
     private ArrayList<Fragment> list_fragment = new ArrayList<Fragment>();
+    private Framgentzong fragmentzong;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor edit;
+    private boolean qq;
     private String[] titles = new String[]{"推荐", "热点", "本地", "社会", "娱乐", "科技", "汽车", "体育", "财经", "军事", "国际"};
     String[] urls = new String[]
             {"http://ic.snssdk.com/2/article/v25/stream/?count=20&min_behot_time=1455521444&bd_city=%E5%8C%97%E4%BA%AC%E5%B8%82&bd_latitude=40.049317&bd_longitude=116.296499&bd_loc_time=1455521401&loc_mode=5&lac=4527&cid=28883&iid=3642583580&device_id=11131669133&ac=wifi&channel=baidu&aid=13&app_name=news_article&version_code=460&device_platform=android&device_type=SCH-I919U&os_api=19&os_version=4.4.2&uuid=285592931621751&openudid=AC9E172CE2490000",
@@ -92,7 +96,7 @@ public class SecondActivity extends FragmentActivity {
             switch (action) {
                 // 授权成功的状态
                 case UMAuthListener.ACTION_AUTHORIZE:
-                   // Toast.makeText(SecondActivity.this, "ACTION_AUTHORIZE111", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(SecondActivity.this, "ACTION_AUTHORIZE111", Toast.LENGTH_SHORT).show();
                     UMShareAPI mShareAPI = UMShareAPI.get(SecondActivity.this);
                     mShareAPI.getPlatformInfo(SecondActivity.this, platform, umAuthListener);
                     break;
@@ -100,14 +104,23 @@ public class SecondActivity extends FragmentActivity {
 
 
                 case UMAuthListener.ACTION_GET_PROFILE:
-                  //  Toast.makeText(SecondActivity.this, "zoule", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(SecondActivity.this, "zoule", Toast.LENGTH_SHORT).show();
                     name = data.get("name");
                     iconurl = data.get("iconurl");
                     gender = data.get("gender");
 
+                    edit = sharedPreferences.edit();
+                    edit.putBoolean("QQ", true);
+                    edit.putString("name", name);
+                    edit.putString("iconurl", iconurl);
+                    edit.putString("gender", gender);
+                    edit.commit();
 
-                    flag2=true;
-                   dengluzhuangtai();
+
+
+                    flag2 = true;
+                    dengluzhuangtai();
+
 
                     Toast.makeText(SecondActivity.this, name + gender + "：欢迎您来到今日头条", Toast.LENGTH_SHORT).show();
                     break;
@@ -127,9 +140,11 @@ public class SecondActivity extends FragmentActivity {
             Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
         }
     };
-    private Framgentzong fragmentzong;
+    private LinearLayout shoucang;
+
 
     private void dengluzhuangtai() {
+
         relativeLayout.setVisibility(View.INVISIBLE);
 
         sli_text_myQQName = (TextView) findViewById(R.id.sli_text_MyQQName);
@@ -137,23 +152,24 @@ public class SecondActivity extends FragmentActivity {
         ImageView sli_image_Mytouxiang = (ImageView) findViewById(R.id.sli_image_Mytouxiang);
         //ImageLoader.getInstance().displayImage(iconurl,sli_image_Mytouxiang, ImageUtils.displayImageOptions(R.mipmap.ic_qq_login_normal));
         //ImageLoader.getInstance().displayImage(iconurl,benren, ImageUtils.displayImageOptions(R.mipmap.ic_qq_login_normal));
-        ImageOptions options = new ImageOptions.Builder().setCircular(true).setCrop(true).setSize(80,80).build();
-        x.image().bind(benren,iconurl,options);
-        x.image().bind(sli_image_Mytouxiang,iconurl,options);
+        ImageOptions options = new ImageOptions.Builder().setCircular(true).setCrop(true).setSize(80, 80).build();
+        x.image().bind(benren, iconurl, options);
+        x.image().bind(sli_image_Mytouxiang, iconurl, options);
+
+
+
     }
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SMSSDK.initSDK(this, "1c16281aa4eb6", "50984e21b1aa93bde62cde0afc4028d4");
 
-
-
+        sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         if (savedInstanceState != null) {
-            name=savedInstanceState.getString("name");
-            iconurl=savedInstanceState.getString("image");
+            name = savedInstanceState.getString("name");
+            iconurl = savedInstanceState.getString("image");
 
             flag2 = savedInstanceState.getBoolean("flag2");
             theme = savedInstanceState.getInt("theme");
@@ -172,7 +188,7 @@ public class SecondActivity extends FragmentActivity {
             yejian.setText("夜间模式");
             sli_image_yejian.setImageResource(R.mipmap.daymode_popover);
         }
-        if(flag2){
+        if (flag2) {
             dengluzhuangtai();
         }
         initdata();
@@ -227,7 +243,8 @@ public class SecondActivity extends FragmentActivity {
         ImageButton cellogin = (ImageButton) findViewById(R.id.sliding_image_cellogin);
         ImageButton qqlogin = (ImageButton) findViewById(R.id.sliding_image_qqlogin);
         TextView sliding_text_gengduo = (TextView) findViewById(R.id.sliding_text_gengduo);
-        LinearLayout shoucang = (LinearLayout) findViewById(R.id.sliding_linear_shoucang);
+        shoucang = (LinearLayout) findViewById(R.id.sliding_linear_shoucang);
+        LinearLayout baoliao=(LinearLayout) findViewById(R.id.sliding_linear_woyaobaoliao);
         LinearLayout sli_lin_lixian = (LinearLayout) findViewById(R.id.sli_lin_lixian);
         LinearLayout sli_lin_shezhi = (LinearLayout) findViewById(R.id.sli_lin_shezhi);
         LinearLayout sli_lin_yejian = (LinearLayout) findViewById(R.id.sli_lin_yejian);
@@ -235,18 +252,34 @@ public class SecondActivity extends FragmentActivity {
 
         yejian = (TextView) findViewById(R.id.sli_text_yejian);
         sli_image_yejian = (ImageView) findViewById(R.id.sli_image_yejian);
+        baoliao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SecondActivity.this, Baoliao.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+            }
+        });
+        shoucang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(SecondActivity.this, Shoucang.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+
+            }
+        });
         sli_lin_shezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this,Shezhi.class));
-                overridePendingTransition(R.anim.enter,R.anim.exit);
+                startActivity(new Intent(SecondActivity.this, Shezhi.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
         sli_lin_lixian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this,LixianxiazaiActivity.class));
-                overridePendingTransition(R.anim.enter,R.anim.exit);
+                startActivity(new Intent(SecondActivity.this, LixianxiazaiActivity.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
         cellogin.setOnClickListener(new View.OnClickListener() {
@@ -315,8 +348,10 @@ public class SecondActivity extends FragmentActivity {
         gengduo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this,GengduoActivity.class));
-                overridePendingTransition(R.anim.enter,R.anim.exit);
+                Intent intent = new Intent(SecondActivity.this, GengduoActivity.class);
+                intent.putExtra("theme",theme);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter, R.anim.exit);
 
             }
         });
@@ -354,8 +389,8 @@ public class SecondActivity extends FragmentActivity {
         outState.putInt("theme", theme);
         outState.putBoolean("flag", flag);
         outState.putBoolean("flag2", flag2);
-        outState.putString("name",name);
-        outState.putString("image",iconurl);
+        outState.putString("name", name);
+        outState.putString("image", iconurl);
 
 
     }
@@ -375,5 +410,22 @@ public class SecondActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        qq = false;
+        qq = sharedPreferences.getBoolean("QQ", false);
+        name = sharedPreferences.getString("name", "name");
+        iconurl = sharedPreferences.getString("iconurl", "iconurl");
+        gender = sharedPreferences.getString("gender", "gender");
+
+
+
+        if (qq) {
+            dengluzhuangtai();
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.bawei.jiajianhai.jinritoutiao.adapter;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.FocusFinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,9 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bawei.jiajianhai.jinritoutiao.R;
+import com.bawei.jiajianhai.jinritoutiao.activity.PictureShow;
 import com.bawei.jiajianhai.jinritoutiao.activity.WebActivity;
 import com.bawei.jiajianhai.jinritoutiao.bean.DataBeanX;
 import com.bawei.jiajianhai.jinritoutiao.utils.ImageUtils;
+import com.handmark.view.photoview.PhotoView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ public class MyAdapter extends BaseAdapter {
     private ViewHolder2 holder2;
     private ViewHolder3 holder3;
     private ViewHolder4 holder4;
+    private String time;
 
     public MyAdapter(FragmentActivity activity, ArrayList<DataBeanX> datas) {
         this.activity = activity;
@@ -151,10 +155,10 @@ public class MyAdapter extends BaseAdapter {
                 if(video_duration!=0){
                     int i1 = video_duration % 60;
                     if(i1<10){
-                        String time="   "+video_duration/60+":"+"0"+i1;
+                        time = "   "+video_duration/60+":"+"0"+i1;
                         holder1.shijian.setText(time);
                     }else {
-                        String time="   "+video_duration/60+":"+i1;
+                        time="   "+video_duration/60+":"+i1;
                         holder1.shijian.setText(time);
                     }
 
@@ -168,9 +172,16 @@ public class MyAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(activity, WebActivity.class);
-                        intent.putExtra("url",datas.get(i).getShare_url());
-                        activity.startActivity(intent);
 
+                        intent.putExtra("url",datas.get(i).getUrl());
+                        intent.putExtra("title",datas.get(i).getTitle());
+                        intent.putExtra("from",datas.get(i).getSource());
+                        intent.putExtra("time",time);
+                        intent.putExtra("type",TYPE_1);
+
+                        intent.putExtra("image1",datas.get(i).getMiddle_image().getUrl());
+
+                        activity.startActivity(intent);
                         activity.overridePendingTransition(R.anim.enter,R.anim.exit);
                     }
                 });
@@ -179,6 +190,11 @@ public class MyAdapter extends BaseAdapter {
                     public void onClick(View view) {
                         Intent intent=new Intent(activity, WebActivity.class);
                         intent.putExtra("url",datas.get(i).getUrl());
+                        intent.putExtra("title",datas.get(i).getTitle());
+                        intent.putExtra("from",datas.get(i).getSource());
+                        intent.putExtra("time",time);
+                        intent.putExtra("type",TYPE_1);
+                        intent.putExtra("image1",datas.get(i).getMiddle_image().getUrl());
                         activity.startActivity(intent);
 
                         activity.overridePendingTransition(R.anim.enter,R.anim.exit);
@@ -193,6 +209,10 @@ public class MyAdapter extends BaseAdapter {
                     public void onClick(View view) {
                         Intent intent=new Intent(activity, WebActivity.class);
                         intent.putExtra("url",datas.get(i).getUrl());
+                        intent.putExtra("title",datas.get(i).getTitle());
+                        intent.putExtra("from",datas.get(i).getSource());
+                        intent.putExtra("type",TYPE_2);
+
                         activity.startActivity(intent);
 
                         activity.overridePendingTransition(R.anim.enter,R.anim.exit);
@@ -208,6 +228,10 @@ public class MyAdapter extends BaseAdapter {
                     public void onClick(View view) {
                         Intent intent=new Intent(activity, WebActivity.class);
                         intent.putExtra("url",datas.get(i).getUrl());
+                        intent.putExtra("title",datas.get(i).getTitle());
+                        intent.putExtra("from",datas.get(i).getSource());
+                        intent.putExtra("type",TYPE_3);
+                        intent.putExtra("image1",datas.get(i).getMiddle_image().getUrl());
                         activity.startActivity(intent);
 
                         activity.overridePendingTransition(R.anim.enter,R.anim.exit);
@@ -216,8 +240,15 @@ public class MyAdapter extends BaseAdapter {
                 holder3.itemImage3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(activity, WebActivity.class);
+                        Intent intent=new Intent(activity, PictureShow.class);
+                        ArrayList<String> list_imageurl=new ArrayList<String>();
+                        list_imageurl.add(datas.get(i).getMiddle_image().getUrl());
+                        intent.putExtra("list",list_imageurl);
                         intent.putExtra("url",datas.get(i).getUrl());
+                        intent.putExtra("type",TYPE_3);
+                        intent.putExtra("title",datas.get(i).getTitle());
+                        intent.putExtra("from",datas.get(i).getSource());
+                        intent.putExtra("image1",datas.get(i).getMiddle_image().getUrl());
                         activity.startActivity(intent);
 
                         activity.overridePendingTransition(R.anim.enter,R.anim.exit);
@@ -232,16 +263,49 @@ public class MyAdapter extends BaseAdapter {
                 ImageLoader.getInstance().displayImage(datas.get(i).getImage_list().get(1).getUrl(), holder4.itemImage4_2, ImageUtils.displayImageOptions(R.mipmap.ic_qq_login_normal));
                 ImageLoader.getInstance().displayImage(datas.get(i).getImage_list().get(2).getUrl(), holder4.itemImage4_3, ImageUtils.displayImageOptions(R.mipmap.ic_qq_login_normal));
 
-                holder4.linear.setOnClickListener(new View.OnClickListener() {
+                holder4.title4.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent=new Intent(activity, WebActivity.class);
+                        ArrayList<String> list_imageurl=new ArrayList<String>();
+                        list_imageurl.add(datas.get(i).getImage_list().get(0).getUrl());
+                        list_imageurl.add(datas.get(i).getImage_list().get(1).getUrl());
+                        list_imageurl.add(datas.get(i).getImage_list().get(2).getUrl());
                         intent.putExtra("url",datas.get(i).getUrl());
+                        intent.putExtra("title",datas.get(i).getTitle());
+                        intent.putExtra("from",datas.get(i).getSource());
+                        intent.putExtra("type",TYPE_4);
+                        intent.putExtra("list",list_imageurl);
+                        intent.putExtra("image1",datas.get(i).getImage_list().get(0).getUrl());
+                        intent.putExtra("image2",datas.get(i).getImage_list().get(1).getUrl());
+                        intent.putExtra("image3",datas.get(i).getImage_list().get(2).getUrl());
+
                         activity.startActivity(intent);
 
                         activity.overridePendingTransition(R.anim.enter,R.anim.exit);
                     }
                 });
+                for (int j = 0; j <3 ; j++) {
+                    final int finalJ = j;
+                    holder4.linear.getChildAt(j).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent=new Intent(activity, PictureShow.class);
+                            ArrayList<String> list_imageurl=new ArrayList<String>();
+
+                            list_imageurl.add(datas.get(i).getImage_list().get(0).getUrl());
+                            list_imageurl.add(datas.get(i).getImage_list().get(1).getUrl());
+                            list_imageurl.add(datas.get(i).getImage_list().get(2).getUrl());
+                            intent.putExtra("list",list_imageurl);
+                            intent.putExtra("child", finalJ);
+                            activity.startActivity(intent);
+
+                            activity.overridePendingTransition(R.anim.enter,R.anim.exit);
+
+                        }
+                    });
+                }
+
                 break;
         }
 
